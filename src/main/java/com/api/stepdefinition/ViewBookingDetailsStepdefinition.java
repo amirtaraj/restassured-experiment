@@ -26,13 +26,19 @@ public class ViewBookingDetailsStepdefinition {
 		context.session.put("endpoint", endpoint);
 	}
 
-	@When("user makes a request to view booking IDs")
+	@Given("user has access to endpoint {string} with param {string}")
+	public void userHasAccessToEndpointWithParam(String endpoint, String param) {
+		String fullEndpoint = endpoint + "/" + param;
+		context.session.put("endpoint", fullEndpoint);
+	}
+
+	@When("user makes a request to view all Patients")
 	public void userMakesARequestToViewBookingIDs() {
 		context.response = context.requestSetup().when().get(context.session.get("endpoint").toString());
-		int bookingID = context.response.getBody().jsonPath().getInt("[0].bookingid");
-		LOG.info("Booking ID: "+bookingID);
-		assertNotNull("Booking ID not found!", bookingID);
-		context.session.put("bookingID", bookingID);
+		//int bookingID = context.response.getBody().jsonPath().getInt("[0].bookingid");
+		//LOG.info("Booking ID: "+bookingID);
+		//assertNotNull("Booking ID not found!", bookingID);
+		//context.session.put("bookingID", bookingID);
 	}
 
 	@Then("user should get the response code {int}")
@@ -62,6 +68,14 @@ public class ViewBookingDetailsStepdefinition {
 		context.response = context.requestSetup()
 				.queryParams("checkin",checkin, "checkout", checkout)
 				.when().get(context.session.get("endpoint").toString());	
+	}
+
+	@Given("user makes a request to view a patient with Id {string}")
+	public void userMakesARequestToViewPatient(String patientId) {
+		String path = "/patient/" + patientId;
+		context.response = context.requestSetup()
+				.basePath(patientId)
+				.when().get(context.session.get("endpoint").toString());
 	}
 
 	@Then("user makes a request to view all the booking IDs of that user name")

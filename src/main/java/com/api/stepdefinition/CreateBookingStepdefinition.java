@@ -83,14 +83,14 @@ public class CreateBookingStepdefinition {
 		LOG.info("Successfully Validated schema from Excel");
 	}
 
-	@When("user creates a booking using data {string} from JSON file {string}")
-	public void userCreatesABookingUsingDataFromJSONFile(String dataKey, String JSONFile) {
-		context.response = context.requestSetup().body(JsonReader.getRequestBody(JSONFile,dataKey))
+	@When("user saves a patient from JSON file {string}")
+	public void userCreatesABookingUsingDataFromJSONFile(String JSONFile) {
+		context.response = context.requestSetup().body(JsonReader.getRequestBody(JSONFile))
 				.when().post(context.session.get("endpoint").toString());
 
-		BookingDTO bookingDTO = ResponseHandler.deserializedResponse(context.response, BookingDTO.class);
-		assertNotNull("Booking not created", bookingDTO);
-		LOG.info("Newly created booking ID: "+bookingDTO.getBookingid());	
-		context.session.put("bookingID", bookingDTO.getBookingid());
+		//BookingDTO bookingDTO = ResponseHandler.deserializedResponse(context.response, BookingDTO.class);
+		//assertNotNull("Booking not created", bookingDTO);
+		//LOG.info("Newly created booking ID: "+bookingDTO.getBookingid());
+		//context.session.put("bookingID", bookingDTO.getBookingid());
 	}
 }

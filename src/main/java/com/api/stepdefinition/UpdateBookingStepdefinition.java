@@ -76,11 +76,11 @@ public class UpdateBookingStepdefinition {
 	}
 	
 	@When("user updates the booking details using data {string} from JSON file {string}")
-	public void userUpdatesTheBookingDetailsUsingDataFromJSONFile(String dataKey, String JSONFile) {
+	public void userUpdatesTheBookingDetailsUsingDataFromJSONFile(String JSONFile) {
 		context.response = context.requestSetup()
 				.header("Cookie", context.session.get("token").toString())
 				.pathParam("bookingID", context.session.get("bookingID"))
-				.body(JsonReader.getRequestBody(JSONFile,dataKey))
+				.body(JsonReader.getRequestBody(JSONFile))
 				.when().put(context.session.get("endpoint")+"/{bookingID}");
 		
 		BookingDetailsDTO bookingDetailsDTO = ResponseHandler.deserializedResponse(context.response, BookingDetailsDTO.class);

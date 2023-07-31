@@ -15,11 +15,11 @@ public class JsonReader {
 	private static JSONParser parser = new JSONParser();
 	private static Object body;
 
-	public static String getRequestBody(String jsonFileName, String jsonKey) {		
+	public static String getRequestBody(String jsonFileName) {
 		try {
-			body = ((JSONObject)parser.parse(new FileReader(dataPath+jsonFileName))).get(jsonKey);
+			body = ((JSONObject)parser.parse(new FileReader(dataPath+jsonFileName)));
 			if (body == null) {
-				throw new RuntimeException("NO DATA FOUND in JSON file '" + jsonFileName +"' for key '"+jsonKey+"'");
+				throw new RuntimeException("NO DATA FOUND in JSON file '" + jsonFileName );
 			}
 		} catch (FileNotFoundException e) {
 			throw new RuntimeException("JSON file not found at path: " + dataPath+jsonFileName);
